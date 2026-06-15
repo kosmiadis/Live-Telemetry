@@ -59,4 +59,29 @@ The Backend is responsible for the API communication. The API has a specific rou
 
 The application is Containerized with Docker
 
-## How to use
+## How to use (Recommended to use Docker)
+
+- To run with **Docker** navigate to the root directory and run the following command
+```
+docker compose up --build
+```
+
+To run **manually** start both Node.js and Next.js servers via the commands
+
+- Open a new terminal and enter the following commands
+```
+# Next.js build
+pnpm build
+
+# run the dashboard on port 3000
+pnpm start
+```
+
+- Then open another terminal and enter the following commands
+```
+# Node.js 
+pnpm build
+
+# run the server on port 8080
+pnpm start
+```
