@@ -13,7 +13,7 @@
     "exactOptionalPropertyTypes": true,
     
     "paths": {
-      "@shared/*": ["../shared/*"]
+      "@types/*": ["./src/types/*"]
     },
 
     // Style Options
@@ -23,8 +23,8 @@
     // "noUnusedParameters": true,
     // "noFallthroughCasesInSwitch": true,
     // "noPropertyAccessFromIndexSignature": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
+    "allowImportingTsExtensions": false,
+    "noEmit": false,
 
     // Recommended Options
     "strict": true,
