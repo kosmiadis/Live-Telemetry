@@ -32,11 +32,11 @@ export default function Dashboard () {
             //parse data back to original form
             const data: TelemetryData = {
               vehicleId: view.getUint8(0),
-              speed:     view.getUint8(1),
-              rpm:       view.getUint16(2, false),
-              throttle:  view.getUint8(4),
-              batterySOC:view.getUint8(5),
-              voltage:   view.getUint16(6, false) / 100, 
+              speed: view.getUint8(1),
+              rpm: view.getUint16(2, false),
+              throttle: view.getUint8(4),
+              batterySOC: view.getUint8(5),
+              voltage: view.getUint16(6, false) / 100, 
               batteryTemp: view.getFloat32(8, false),    
               timestamp: view.getUint32(12, false),
             };
