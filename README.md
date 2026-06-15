@@ -53,7 +53,7 @@ The Backend is separated into two categories
 - Real-Time Data
 - Dashboard Static Data
 
-For the **Real-Time Data** part a separate server written in Node.js is being used. It uses a custom protocol for sending raw binary data and sends them over a Web Socket every 300ms. Raw binary data is preferred over JSON formatted data due to smaller network bandwidth resulting in higher data transfer speeds.
+For the **Real-Time Data** part a separate server written in Node.js is being used. It uses a custom protocol for sending raw binary data and sends them over a Web Socket every 300ms. **Raw binary data is preferred over JSON formatted data due to smaller network bandwidth resulting in higher data transfer speeds.**
 
 For the **Dashboard Static Data** the Next.js Backend is used to fetch data that are relative with the previewing vehicle such as, name, id etc...
 
