@@ -48,12 +48,14 @@ The Frontend part of the application consists of a real-time modern dashboard wi
 ## UI
 
 ## Backend
+The Backend is separated into two categories
 
-The Backend is responsible for the API communication. The API has a specific route that is responsible for sending **Raw Binary Data** through a Web Socket for instant communication between frontend-backend
+- Real-Time Data
+- Dashboard Static Data
 
-|  Method  |  Endpoint | Purpose  |
-| :----: | :----: | :----: |
-| GET | /api/vehicles/[id]/data | Real-Time vehicle tracking data | 
+For the **Real-Time Data** part a separate server written in Node.js is being used. It uses a custom protocol for sending raw binary data and sends them over a Web Socket every 300ms. Raw binary data is preferred over JSON formatted data due to smaller network bandwidth resulting in higher data transfer speeds.
+
+For the **Dashboard Static Data** the Next.js Backend is used to fetch data that are relative with the previewing vehicle such as, name, id etc...
 
 ## Infrastructure
 
@@ -85,3 +87,4 @@ pnpm build
 # run the server on port 8080
 pnpm start
 ```
+
