@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model VehicleStats {
+  vehicleStatsId Int @id @default(autoincrement())
+  color String
+  weight Int
+  batteryVoltage Int
+
+  vehicleId Int @unique
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+}
+
+model VehiclePerformance {
+  vehiclePerformance Int @id @default(autoincrement())
+  maxSpeed Int
+  averageSpeed Int
+  maxRpm Int
+  averageRpm Int
+  maxThrottle Int
+  averageThrottle Int
+  maxBatteryTemp Int
+
+  vehicleId Int @unique
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+}
+
+model Vehicle {
+  id Int @id @default(autoincrement())
+  vehicleName String @unique
+  vehicleStats VehicleStats?
+  vehiclePerformance VehiclePerformance?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

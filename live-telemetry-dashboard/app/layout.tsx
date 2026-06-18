@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import ThemeProvider from "./context/ThemeProvider";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import DashboardSidebar from "./components/sidebar";
+import { Toaster } from "sonner";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -38,13 +39,14 @@ export default function RootLayout({
           <ThemeProvider>
               <div>
                 <DashboardSidebar />
-                <div className="bg-sidebar text-sidebar-foreground min-h-screen pt-1.5 pl-1">
+                <div className="bg-background text-sidebar-foreground min-h-screen pt-1.5 pl-1">
                   <SidebarTrigger />
                 </div>
               </div>
-              <main className="min-w-full dark:bg-sidebar dark:text-sidebar-foreground p-2">
+              <main className="min-w-full dark:bg-background dark:text-sidebar-foreground p-2">
                 {children}
               </main>
+              <Toaster position="top-center"/>
           </ThemeProvider>
         </SidebarProvider>
       </body>
