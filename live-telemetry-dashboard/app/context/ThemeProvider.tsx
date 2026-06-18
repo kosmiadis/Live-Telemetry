@@ -15,7 +15,7 @@ const ThemeCtx = createContext<ThemeI>({
 })
 
 export default function ThemeProvider ({ children }: { children: ReactNode }) {
-    const [theme, setTheme] = useState<ThemeType>('light');
+    const [theme, setTheme] = useState<ThemeType>('dark');
 
     return <ThemeCtx.Provider value={{ theme, setTheme }}>
         <div className={twMerge(theme, 'grid grid-cols-[auto_1fr] min-w-full')}>
