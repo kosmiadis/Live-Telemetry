@@ -5,6 +5,7 @@ import SidebarVehicles from "./sidebar-vehicles";
 import { prisma } from "../lib/prisma";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 function SidebarVehiclesSkeleton () {
   return (
@@ -29,7 +30,7 @@ export default async function DashboardSidebar () {
     return <Sidebar> 
       <SidebarHeader className="text-center flex flex-row items-center justify-between">
         <div className="pl-2">
-          <P>Live Telemetry</P> 
+          <Link href={'/'}><P >Live Telemetry</P></Link>
         </div>
         <SidebarTrigger />
       </SidebarHeader>

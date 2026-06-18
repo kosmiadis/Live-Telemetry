@@ -6,6 +6,7 @@ import { H4, Muted, P } from "@/components/ui/typography";
 import { VehiclePerformanceType } from "@/types/vehicle";
 import { Gauge, Orbit, Thermometer, Zap } from "lucide-react";
 import { Metadata } from "next"
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
 
@@ -19,7 +20,10 @@ export async function generateMetadata(
 }
 
 export default async function VehicleDetailsLayout ({ children, params }: { children: ReactNode, params: Promise<{vehicleName: string}>}) {
-    return <div className="py-2 md:px-4 w-full">
+  //add logic so that real time data are calculated and static data are 
+  //updated every 20 seconds using cron jobs
+
+return <div className="py-2 md:px-4 w-full">
         <Suspense fallback={<VehicleHeaderSkeleton />}>
             <VehicleLayoutHeader params={params} />
         </Suspense>
@@ -27,8 +31,6 @@ export default async function VehicleDetailsLayout ({ children, params }: { chil
         <Suspense fallback={<PerformanceDataSkeleton />}>
             <VehicleLayoutStaticPerformanceData params={params} />
         </Suspense>
-
-        
         {children}
     </div>
 }
@@ -62,8 +64,9 @@ async function VehicleLayoutHeader ({ params }: { params: Promise<{vehicleName: 
             <H4>{vehicle.vehicleName}</H4>
             <Muted>{vehicle.vehicleStats?.weight}kg | {vehicle.vehicleStats?.batteryVoltage}V | {new Date(vehicle.createdAt).toLocaleDateString()}</Muted>
         </div>
-        <div className="w-min ">
-            <Button>Delete Vehicle</Button>
+        <div className="w-min flex items-center gap-2">
+            <Link href={'/'} className="text-nowrap"><Button className="hover:cursor-pointer">Go back</Button></Link>
+            <Button variant={'destructive'} className="hover:cursor-pointer">Delete Vehicle</Button>
         </div>
     </div>
 }

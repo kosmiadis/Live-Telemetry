@@ -78,11 +78,10 @@ export default function VehicleTelemetryStream () {
       else {
         socket.close();
       }
-      
+
     }, [shouldConnect])
 
     return <div className="space-y-6 mt-6">
-
     <div className="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
       {!shouldConnect && (
         <div className="flex flex-col items-center justify-center text-center p-6 space-y-4">
