@@ -2,10 +2,30 @@ import { SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, Sidebar, Si
 import { P } from "@/components/ui/typography";
 import SidebarThemeSelect from "./sidebar-theme";
 import SidebarVehicles from "./sidebar-vehicles";
+import { prisma } from "../lib/prisma";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function DashboardSidebar () {
+function SidebarVehiclesSkeleton () {
+  return (
+    <>
+      {Array.from({ length: 6 }).map((_, index) => (
+        <SidebarMenuItem key={index}>
+          <SidebarMenuButton disabled className="pointer-events-none">
+            <Skeleton className="h-6 w-full rounded-full shrink-0" />
+            <Skeleton className="h-6 w-full rounded" />
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </>
+  );
+}
 
-  //here fetch all available vehicles from the db
+export default async function DashboardSidebar () {
+
+    //here fetch all available vehicles from the db
+    const availableVehicles = await prisma.vehicle.findMany();
+
     return <Sidebar> 
       <SidebarHeader className="text-center flex flex-row items-center justify-between">
         <div className="pl-2">
@@ -19,7 +39,9 @@ export default function DashboardSidebar () {
         <SidebarGroup>
           <SidebarGroupLabel>Vehicles</SidebarGroupLabel>
           <SidebarMenu>
-            <SidebarVehicles />
+            <Suspense fallback={<SidebarVehiclesSkeleton />}>
+              <SidebarVehicles vehicles={availableVehicles} />
+            </Suspense>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

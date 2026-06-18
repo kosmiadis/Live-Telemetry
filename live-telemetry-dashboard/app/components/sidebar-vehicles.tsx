@@ -1,21 +1,18 @@
-import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { P } from "@/components/ui/typography";
 import Link from "next/link";
+import { VehicleType } from "@/types/vehicle";
 
-const dummyVehicles = [
-  { id: 1, name: "Kart26", to: '/vehicle/kart-26' },
-  { id: 2, name: "Aristurtle25", to: '/vehicle/aristurtle-25' },
-  { id: 3, name: "NeuralRover", to: '/vehicle/neural-rover' },
-  { id: 4, name: "DevDrive", to: '/vehicle/dev-drive' },
-];
+export type VehiclesType = Pick<VehicleType, 'id' | 'createdAt' | 'updatedAt' | 'vehicleName'>[];
 
-export default function SidebarVehicles () {
-
-    //fetch available vehicles here
+export default function SidebarVehicles ({ vehicles }: { vehicles: VehiclesType}) {
+    if (vehicles.length == 0) {
+        return <P>No Available Vehicles</P>
+    }
 
     return <ul>
-        {dummyVehicles.map(vehicle => <SidebarMenuButton key={vehicle.id}>
-              <Link href={vehicle.to}><P>{vehicle.name}</P></Link>
+        {vehicles?.map(vehicle => <SidebarMenuButton key={vehicle.id}>
+              <Link href={'/vehicle/'+vehicle.vehicleName}><P>{vehicle.vehicleName}</P></Link>
           </ SidebarMenuButton >
         )}
     </ul>
