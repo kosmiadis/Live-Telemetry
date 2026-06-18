@@ -22,7 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 telemetryServerSocket.on('connection', (ws, request) => {
     
     ws.on('close', () => {
-        console.log('Live Telemetry Dashboard disconnected from socket');
+        // console.log('Live Telemetry Dashboard disconnected from socket');
     }) 
     
     ws.on('error', (error) => {
