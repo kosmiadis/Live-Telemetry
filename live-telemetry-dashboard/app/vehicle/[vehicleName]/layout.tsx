@@ -28,11 +28,8 @@ export default async function VehicleDetailsLayout ({ children, params }: { chil
             <VehicleLayoutStaticPerformanceData params={params} />
         </Suspense>
 
-        <div>
-            {children}
-        </div>
         
-        {/* Static Vehicle Data max speed etc. */}
+        {children}
     </div>
 }
 

@@ -8,11 +8,7 @@ export default async function VehicleDataPage ({
 }: {
     params: Promise<{ vehicleName: string }>
 }) {
-    const { vehicleName } = await params;
-    
-    //fetch vehicle static data name, created_at, max_speed etc. 
-    
-    return <div className="py-4 md:px-4 min-w-full flex flex-col gap-4">
+    return <div className="py-4 min-w-full wgap-4">
         {/* Vehicle live data tracking */}
         <VehicleTelemetryStream />
     </div>
