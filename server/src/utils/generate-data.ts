@@ -10,8 +10,8 @@ export function generateData (): TelemetryData {
         vehicleId: 1,
         speed: Math.floor(Math.random() * 255),
         rpm: Math.floor(Math.random() * 10000),
-        batterySOC: 90,
-        batteryTemp: 45.3,
+        batterySOC: 60,
+        batteryTemp: 45,
         throttle: Math.floor(Math.random() * 100),
         voltage: Math.floor(400.25 * 100),
         timestamp: (Date.now() & 0xFFFFFFFF) >>> 0
