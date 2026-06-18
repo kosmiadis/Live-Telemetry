@@ -1,14 +1,13 @@
 'use client';
 
+import { displayError } from "@/app/lib/sonner";
 import { TelemetryData } from "@/types/telemetry";
 import { useState, useEffect } from "react";
-import TelemetryDashboard from "./components/VehicleTelemetryStream";
 
-export default function VehicleDataPage () {
-
-    //fetch vehicle static data name, created_at, max_speed etc. 
-
-    const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
+export default function VehicleTelemetryStream () {
+  //component reponsible for connecting to the websocket of the current vehicle
+  //data stream
+  const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
     const [isConnected, setIsConnected] = useState(false);
     const [error, setError] = useState<null | Error>(null);
 
@@ -56,6 +55,7 @@ export default function VehicleDataPage () {
         };
 
         socket.onerror = (error) => {
+            displayError('Something went wrong while connecting to the vehicle');
             setError(new Error('Something went wrong while trying to connect to vehicle'))
         }
     
@@ -68,22 +68,16 @@ export default function VehicleDataPage () {
             Connecting to Telemetry Stream...
         </div>
     }
-    if (error && isConnected) throw error;
+    if (error && isConnected) return <>
+      Could not connect to live data stream
+    </>
 
-    if (isConnected && !telemetry) {
-        return <div>
-            Something went wrong please try again later
-        </div>
-    }
+    return <div>
+      {(isConnected && telemetry) ? (
+        <p>Speed: {telemetry.speed} km/h | RPM: {telemetry.rpm}</p>
+      ) : (
+        <p>Connecting to Telemetry Stream...</p>
+      )}
+    </div>
 
-    // return <div>
-    //   {(isConnected && telemetry) ? (
-    //     <p>Speed: {telemetry.speed} km/h | RPM: {telemetry.rpm}</p>
-    //   ) : (
-    //     <p>Connecting to Telemetry Stream...</p>
-    //   )}
-    // </div>
-
-    return <TelemetryDashboard />
 }
-

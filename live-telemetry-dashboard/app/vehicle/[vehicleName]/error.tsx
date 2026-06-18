@@ -1,24 +1,3 @@
-// 'use client';
-
-// import { Button } from "@/components/ui/button";
-// import { H2 } from "@/components/ui/typography";
-
-// export default function ErrorPage ({
-//   error,
-//   unstable_retry,
-// }: {
-//   error: Error & { digest?: string }
-//   unstable_retry: () => void
-// }) {
-//     return <div className="w-full h-full flex items-center justify-center">
-//         <div>
-//             {/* ex. Something went wrong while trying to connec to Vehicle */}
-//             <H2>{error.message}</H2>
-//             <Button onClick={unstable_retry}>Retry</Button>
-//         </div>
-//     </div>
-// }
-
 'use client';
 
 import { Button } from "@/components/ui/button";
