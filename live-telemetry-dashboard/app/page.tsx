@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { Car, Plus, Calendar, Gauge, ShieldAlert } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 async function VehiclesGrid() {
   const vehicles = await prisma.vehicle.findMany({
@@ -112,19 +113,22 @@ export default function Home() {
 
         <div className="pt-4">
           <div className="p-6 border border-dashed rounded-lg bg-card/50 flex flex-col gap-4">
-            <div className="space-y-1">
-              <H4>
-                <div className="flex items-center gap-2">
-                  <Plus className="h-5 w-5 text-primary" />
-                  Register a New Vehicle
-                </div>
-              </H4>
-            </div>
-            
             <div className="w-full max-w-sm">
-              <Button variant="outline" className="w-full justify-start text-muted-foreground">
-                Configure telemetry setup...
-              </Button>
+              
+              <Sheet modal>
+                <SheetTrigger>
+                  <div className="hover:cursor-pointer hover:text-stone-600 dark:hover:text-stone-200 flex items-center gap-2">
+                    <Plus className="h-5 w-5 text-primary" />
+                    Register a New Vehicle
+                  </div>
+                  </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Are you absolutely sure?</SheetTitle>
+                    <SheetDescription>This action cannot be undone.</SheetDescription>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import ThemeProvider from "./context/ThemeProvider";
+import { ThemeProvider } from "./context/ThemeProvider";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import DashboardSidebar from "./components/sidebar";
 import { Toaster } from "sonner";
@@ -33,22 +33,29 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
-    >
+    suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
+        
         <SidebarProvider>
-          <ThemeProvider>
-              <div>
-                <DashboardSidebar />
-                <div className="bg-background text-sidebar-foreground min-h-screen pt-1.5 pl-1">
-                  <SidebarTrigger />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            
+                <div>
+                  <DashboardSidebar />
+                  <div className="bg-background text-sidebar-foreground min-h-screen pt-1.5 pl-1">
+                    <SidebarTrigger />
+                  </div>
                 </div>
-              </div>
-              <main className="min-w-full dark:bg-background dark:text-sidebar-foreground p-2">
-                {children}
-              </main>
-              <Toaster position="top-center"/>
-          </ThemeProvider>
-        </SidebarProvider>
+                <main className="min-w-full dark:bg-background dark:text-sidebar-foreground p-2">
+                  {children}
+                </main>
+            </ThemeProvider>
+          </SidebarProvider>
+          <Toaster position="top-center"/>
       </body>
     </html>
   );

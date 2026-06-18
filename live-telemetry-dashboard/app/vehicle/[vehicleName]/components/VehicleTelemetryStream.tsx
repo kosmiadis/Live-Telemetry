@@ -69,6 +69,7 @@ export default function VehicleTelemetryStream () {
         socket.onerror = (error) => {
             displayError('Could not connect to live vehicle data stream');
             setError(new Error('Something went wrong while trying to connect to vehicle'))
+            setShouldConnect(false);
         }
 
         //cleanup function so that the socket connection closes after refresh or exit
@@ -79,7 +80,7 @@ export default function VehicleTelemetryStream () {
         socket.close();
       }
 
-    }, [shouldConnect])
+    }, [shouldConnect, error])
 
     return <div className="space-y-6 mt-6">
     <div className="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
@@ -96,7 +97,7 @@ export default function VehicleTelemetryStream () {
         </div>
       )}
 
-      {shouldConnect && (
+      {(shouldConnect && !error) && (
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="relative flex h-3 w-3">
@@ -120,8 +121,7 @@ export default function VehicleTelemetryStream () {
       )}
     </div>
 
-
-    {shouldConnect && isConnected && telemetry && (
+    {(shouldConnect && isConnected && telemetry && (!error)) && (
       <div className="grid gap-4 md:grid-cols-2">
 
         <Card>

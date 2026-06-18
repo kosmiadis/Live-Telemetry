@@ -1,6 +1,6 @@
 import { SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, Sidebar, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
 import { P } from "@/components/ui/typography";
-import SidebarThemeSelect from "./sidebar-theme";
+import { ThemeToggle } from "./sidebar-theme";
 import SidebarVehicles from "./sidebar-vehicles";
 import { prisma } from "../lib/prisma";
 import { Suspense } from "react";
@@ -29,8 +29,8 @@ export default async function DashboardSidebar () {
 
     return <Sidebar> 
       <SidebarHeader className="text-center flex flex-row items-center justify-between">
-        <div className="pl-2">
-          <Link href={'/'}><P >Live Telemetry</P></Link>
+        <div className="pl-2 mt-2">
+          <Link href={'/'}><P>Live Telemetry</P></Link>
         </div>
         <SidebarTrigger />
       </SidebarHeader>
@@ -48,7 +48,7 @@ export default async function DashboardSidebar () {
       </SidebarContent>
       
       <SidebarFooter className="py-4 flex flex-col items-center">
-        <SidebarThemeSelect />
+        <ThemeToggle />
         <h4 className="text-sm font-semibold text-center">Live Telemetry Dashboard</h4>
       </SidebarFooter>
     </Sidebar>
