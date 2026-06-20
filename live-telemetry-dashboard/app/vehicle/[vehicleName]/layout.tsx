@@ -2,18 +2,29 @@ import { prisma } from "@/app/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { H4, Muted, P } from "@/components/ui/typography";
+import { H4, Muted } from "@/components/ui/typography";
 import { VehiclePerformanceType } from "@/types/vehicle";
 import { Gauge, Orbit, Thermometer, Zap } from "lucide-react";
 import { Metadata } from "next"
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
+import DeleteVehicleForm from "./components/DeleteVehicleForm";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ vehicleName: string }>},
 ): Promise<Metadata> {
   const { vehicleName } = await params;
+
+  const vehicle = await prisma.vehicle.findUnique({
+    where: {
+      vehicleName
+    },
+    select: { id: true }
+  })
+
+  if (!vehicle) notFound();
+
   return {
     title: vehicleName
   }
@@ -22,6 +33,7 @@ export async function generateMetadata(
 export default async function VehicleDetailsLayout ({ children, params }: { children: ReactNode, params: Promise<{vehicleName: string}>}) {
   //add logic so that real time data are calculated and static data are 
   //updated every 20 seconds using cron jobs
+  //static data should be updated if connected to live stream is set to true
 
 return <div className="py-2 md:px-4 w-full">
         <Suspense fallback={<VehicleHeaderSkeleton />}>
@@ -54,9 +66,10 @@ async function VehicleLayoutHeader ({ params }: { params: Promise<{vehicleName: 
 
     const vehicle = await prisma.vehicle.findUnique({
         where: { vehicleName },
-        select: { vehicleName: true, vehicleStats: true, createdAt: true }
+        select: { id: true, vehicleName: true, vehicleStats: true, createdAt: true }
     })
 
+    //vehicle does not exist
     if (!vehicle) notFound();
 
     return <div className="flex flex-row  min-w-full items-center justify-between">
@@ -66,7 +79,7 @@ async function VehicleLayoutHeader ({ params }: { params: Promise<{vehicleName: 
         </div>
         <div className="w-min flex items-center gap-2">
             <Link href={'/'} className="text-nowrap"><Button className="hover:cursor-pointer">Go back</Button></Link>
-            <Button variant={'destructive'} className="hover:cursor-pointer">Delete Vehicle</Button>
+            <DeleteVehicleForm vehicleId={vehicle.id}/>
         </div>
     </div>
 }
@@ -98,33 +111,34 @@ async function VehicleLayoutStaticPerformanceData ({ params }: { params: Promise
         select: { vehiclePerformance: true }
     })
 
+    //vehicle does not exist
     if (!vehicle) notFound();
 
-    const { averageSpeed, maxSpeed, averageRpm, averageThrottle, maxBatteryTemp, maxRpm, maxThrottle } = vehicle.vehiclePerformance as VehiclePerformanceType;
+    const vehiclePerformance = vehicle.vehiclePerformance as VehiclePerformanceType;
 
     const stats = [
     {
       title: "Speed",
-      avg: `${averageSpeed} km/h`,
-      max: `${maxSpeed} km/h`,
+      avg: vehiclePerformance?.averageSpeed != null ? `${vehiclePerformance.averageSpeed} km/h` : 'Untracked',
+      max: vehiclePerformance?.maxSpeed != null ? `${vehiclePerformance.maxSpeed} km/h` : 'Untracked',
       icon: <Gauge className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Motor RPM",
-      avg: `${averageRpm} rpm`,
-      max: `${maxRpm} rpm`,
+      avg: vehiclePerformance?.averageRpm != null ? `${vehiclePerformance.averageRpm} rpm` : 'Untracked',
+      max: vehiclePerformance?.maxRpm != null ? `${vehiclePerformance.maxRpm} rpm` : 'Untracked',
       icon: <Orbit className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Throttle Position",
-      avg: `${averageThrottle}%`,
-      max: `${maxThrottle}%`,
+      avg: vehiclePerformance?.averageThrottle != null ? `${vehiclePerformance.averageThrottle}%` : 'Untracked',
+      max: vehiclePerformance?.maxThrottle != null ? `${vehiclePerformance.maxThrottle}%` : 'Untracked',
       icon: <Zap className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Battery Temp",
       avg: "N/A",
-      max: `${maxBatteryTemp} °C`,
+      max: vehiclePerformance?.maxBatteryTemp != null ? `${vehiclePerformance.maxBatteryTemp} °C`: 'Untracked',
       icon: <Thermometer className="h-4 w-4 text-muted-foreground" />,
     },
   ];
@@ -139,10 +153,16 @@ async function VehicleLayoutStaticPerformanceData ({ params }: { params: Promise
           </CardHeader>
           <CardContent>
             {stat.title !== "Battery Temp" && (
-              <div className="text-2xl font-bold">Avg: {stat.avg}</div>
+              !stat?.avg ? <div className="text-xl font-bold">
+                {stat?.avg}
+              </div> : 
+              <div className="text-xl font-bold">Avg: {stat.avg}</div>
             )}
             <p className="text-xs text-muted-foreground mt-1">
-              Peak / Max: <span className="font-semibold text-destructive">{stat.max}</span>
+              {!stat?.max ? <span className="text-xl font-bold">
+                {stat?.max}
+              </span> : 
+              <span className="text-xl font-bold">Max: {stat.max}</span>}
             </p>
           </CardContent>
         </Card>

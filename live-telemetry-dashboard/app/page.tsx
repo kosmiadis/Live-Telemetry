@@ -5,9 +5,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-import { Car, Plus, Calendar, Gauge, ShieldAlert } from "lucide-react";
+import { Car, Calendar, Gauge } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import RegisterVehicle from "./components/register-vehicle";
 
 async function VehiclesGrid() {
   const vehicles = await prisma.vehicle.findMany({
@@ -101,6 +101,8 @@ export default function Home() {
         <H1>Live Telemetry Dashboard</H1>
       </div>
 
+      <RegisterVehicle />
+
       <div className="space-y-6">
         <div className="flex flex-col gap-3">
           <H4>
@@ -109,28 +111,6 @@ export default function Home() {
           <Suspense fallback={<VehiclesGridSkeleton />}>
             <VehiclesGrid />
           </Suspense>
-        </div>
-
-        <div className="pt-4">
-          <div className="p-6 border border-dashed rounded-lg bg-card/50 flex flex-col gap-4">
-            <div className="w-full max-w-sm">
-              
-              <Sheet modal>
-                <SheetTrigger>
-                  <div className="hover:cursor-pointer hover:text-stone-600 dark:hover:text-stone-200 flex items-center gap-2">
-                    <Plus className="h-5 w-5 text-primary" />
-                    Register a New Vehicle
-                  </div>
-                  </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Are you absolutely sure?</SheetTitle>
-                    <SheetDescription>This action cannot be undone.</SheetDescription>
-                  </SheetHeader>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -5,13 +5,13 @@ type timestamps = {
 }
 
 export type VehiclePerformanceType = {
-    maxSpeed: number;
-    averageSpeed: number;
-    maxRpm: number;
-    averageRpm: number;
-    maxThrottle: number;
-    averageThrottle: number;
-    maxBatteryTemp: number;
+    maxSpeed: number | null;
+    averageSpeed: number | null;
+    maxRpm: number | null;
+    averageRpm: number | null;
+    maxThrottle: number | null;
+    averageThrottle: number | null;
+    maxBatteryTemp: number | null;
 }
 
 export type VehicleType = {
