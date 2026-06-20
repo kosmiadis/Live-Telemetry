@@ -43,16 +43,18 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            
+  
                 <div>
                   <DashboardSidebar />
-                  <div className="bg-background text-sidebar-foreground min-h-screen pt-1.5 pl-1">
-                    <SidebarTrigger />
-                  </div>
+                  
                 </div>
                 <main className="min-w-full dark:bg-background dark:text-sidebar-foreground p-2">
+                  <div className="bg-background text-sidebar-foreground pt-1.5 pl-1">
+                    <SidebarTrigger />
+                  </div>
                   {children}
                 </main>
+              
             </ThemeProvider>
           </SidebarProvider>
           <Toaster position="top-center"/>

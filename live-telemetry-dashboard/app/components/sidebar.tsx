@@ -1,11 +1,12 @@
 import { SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, Sidebar, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
-import { P } from "@/components/ui/typography";
+import { H4, P } from "@/components/ui/typography";
 import { ThemeToggle } from "./sidebar-theme";
 import SidebarVehicles from "./sidebar-vehicles";
 import { prisma } from "../lib/prisma";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import SidebarMobileTrigger from "./sidebar-mobile-trigger";
 
 function SidebarVehiclesSkeleton () {
   return (
@@ -27,18 +28,18 @@ export default async function DashboardSidebar () {
     //here fetch all available vehicles from the db
     const availableVehicles = await prisma.vehicle.findMany();
 
-    return <Sidebar> 
+    return <Sidebar variant="floating"> 
       <SidebarHeader className="text-center flex flex-row items-center justify-between">
         <div className="pl-2 mt-2">
-          <Link href={'/'}><P>Live Telemetry</P></Link>
+          <Link href={'/'}><H4>Live Telemetry</H4></Link>
         </div>
-        <SidebarTrigger />
+        <SidebarMobileTrigger />
       </SidebarHeader>
       
       <SidebarContent>
         {/* Vehicles Select */}
         <SidebarGroup>
-          <SidebarGroupLabel>Vehicles</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-md">Vehicles</SidebarGroupLabel>
           <SidebarMenu>
             <Suspense fallback={<SidebarVehiclesSkeleton />}>
               <SidebarVehicles vehicles={availableVehicles} />
