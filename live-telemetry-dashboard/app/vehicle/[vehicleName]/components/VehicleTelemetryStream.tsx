@@ -26,7 +26,6 @@ export default function VehicleTelemetryStream () {
       if (shouldConnect) {
         //initialize a new web socket connection
         
-
         //when connection establishes setIsConnected to true
         socket.onopen = (e) => {
             //temp to check is connecting

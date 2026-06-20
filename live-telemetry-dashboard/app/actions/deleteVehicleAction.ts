@@ -1,24 +1,26 @@
 'use server';
 
-import { redirect } from "next/navigation";
 import { prisma } from "../lib/prisma";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export async function DeleteVehicleAction (_prevData: any, formData: FormData) {
+type DeleteVehicleReturnStateType = {
+    isSuccess: boolean | null;
+    message?: string | null;
+};
 
-    const vehicleId = formData.get('vehicleId') as string;
-
+export async function deleteVehicleAction (_prevData: any, vehicleId: number): Promise<DeleteVehicleReturnStateType | void> {
+    
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+    
     try {
         await prisma.vehicle.delete({
-            where: { id: parseInt(vehicleId) }
+            where: { id: vehicleId }
         })
         revalidatePath('/');
-        
     } catch (e: any) {   
-        console.log(e.message);
-        //temporary
-        throw e;
+        return { isSuccess: false, message: 'Vehicle was not deleted'};
     }
 
-    redirect('/')
+    redirect('/');
 }
