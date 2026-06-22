@@ -22,14 +22,13 @@ export default function DeleteVehicleForm ({ vehicleId }: { vehicleId: number })
     }
 
     useEffect(() => {
+        //the success section is handle in the deleteVehicleAction with a revalidatePath('/') and a redirect to homepage
+        //here we handle only the success state
         if (state?.isSuccess == false){
-            setIsOpen(false);
+              setIsOpen(false);
             toast.error(state?.message);
         }
-        // else if (state.isSuccess == true) {
-        //     setIsOpen(false);
-        //     router.push('/');
-        // }
+      
     }, [state, router])
 
     return <>

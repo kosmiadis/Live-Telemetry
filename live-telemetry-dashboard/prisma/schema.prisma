@@ -30,6 +30,7 @@ model VehiclePerformance {
   averageRpm Int
   maxThrottle Int
   averageThrottle Int
+  averageBatteryTemp Int
   maxBatteryTemp Int
 
   vehicleId Int @unique

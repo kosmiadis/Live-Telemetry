@@ -27,7 +27,6 @@ export async function registerVehicleAction (_prevState: RegisterVehicleReturnSt
         return { isError: false };
     }
     catch (e: any) {
-        console.log(e.message);
         return { isError: true, message: 'Vehicle was not registered' };
     }
 }

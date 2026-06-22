@@ -5,6 +5,7 @@ type timestamps = {
 }
 
 export type VehiclePerformanceType = {
+    vehiclePerformance: number;
     maxSpeed: number | null;
     averageSpeed: number | null;
     maxRpm: number | null;
@@ -12,15 +13,17 @@ export type VehiclePerformanceType = {
     maxThrottle: number | null;
     averageThrottle: number | null;
     maxBatteryTemp: number | null;
+    averageBatteryTemp: number | null;
 }
 
 export type VehicleType = {
     id: number;
     vehicleName: string;
     vehicleStats: {
+        vehicleId: number;
         color: string | null;
-        weight: string | null; 
+        weight: number | null; 
         batteryVoltage: number | null;   
-    };
-    vehiclePerformance: VehiclePerformanceType;
+    } | null;
+    vehiclePerformance: VehiclePerformanceType | null;
 } & timestamps;
