@@ -5,8 +5,9 @@ import type { Request, Response } from 'express';
 import { generateData } from './utils/generate-data.js';
 import { WebSocket } from 'ws';
 import { getLivePerformanceAverage } from './utils/getAverage.js';
+import { storePerformance } from './utils/store-performance.js';
 
-interface VehicleStreamBinaryDataContextI {
+export interface VehicleStreamBinaryDataContextI {
     vehicleId: number | undefined;
     averageSpeed: number | null;
     maxSpeed: number | null;
@@ -31,7 +32,6 @@ app.get('/', (req: Request, res: Response) => {
     res.json({ message: 'Live Telemetry App'});
 })  
 
-
 let staticPerformanceData: VehicleStreamBinaryDataContextI = {
     vehicleId: undefined,
     averageSpeed:0,
@@ -44,16 +44,20 @@ let staticPerformanceData: VehicleStreamBinaryDataContextI = {
     maxThrottle: 0,
 };
 
-
 //shows how many times the server has emitted data, gets incremented by one
 let intervals = 0;
 
 //client has connected to socket
 telemetryServerSocket.on('connection', (ws, request) => {
-    ws.on('close', () => {
+    
+    ws.on('close', async () => {
+        if (staticPerformanceData.vehicleId) {
+            await storePerformance(staticPerformanceData, staticPerformanceData.vehicleId);
+        }
+        
         staticPerformanceData.vehicleId = undefined; // stops the emission loop
         intervals = 0;
-        //update the db with the staticPerformanceData that has collected while the vehicle was sending data
+        
     }) 
     
     ws.on('error', (error) => {
@@ -94,7 +98,6 @@ telemetryServerSocket.on('connection', (ws, request) => {
                 averageThrottle: perf.averageThrottle ?? 0,
             };
             
-
         } catch (e: any) {
             //close the connection if an error occured
             ws.close();
@@ -102,8 +105,8 @@ telemetryServerSocket.on('connection', (ws, request) => {
     })
 })
 
-
 setInterval(() => {
+
     if (telemetryServerSocket.clients.size > 0 && (staticPerformanceData.vehicleId !== undefined)) {
         //increment intervals by one so averages can be calculated correctly
         intervals++;
@@ -155,6 +158,15 @@ setInterval(() => {
         intervals = 0;
     }
 }, 300)
+
+
+
+//every 20 seconds store the live tracking data in db
+setInterval(async () => {
+    if (staticPerformanceData.vehicleId) {
+        await storePerformance(staticPerformanceData, staticPerformanceData.vehicleId)
+    }
+}, 1000 * 10)
 
 server.listen(PORT, () => {
     console.log('app is running on http://localhost:'+PORT);

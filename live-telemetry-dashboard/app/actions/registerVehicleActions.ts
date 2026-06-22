@@ -20,7 +20,7 @@ export async function registerVehicleAction (_prevState: RegisterVehicleReturnSt
                         color: formValues.vehicleColor,
                         weight: formValues.vehicleWeight
                     }
-                }
+                },
             }
         })
         revalidatePath('/');
