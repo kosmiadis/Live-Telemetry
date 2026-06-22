@@ -12,7 +12,6 @@ export default function ErrorPage({
 }) {
   
   useEffect(() => {
-    // Μπορείς να logάρεις το error σε κάποιο υπηρεσία όπως το Sentry
     console.error("Telemetry Error Caught:", error);
   }, [error]);
 
@@ -32,7 +31,6 @@ export default function ErrorPage({
           </svg>
         </div>
 
-        {/* Message */}
         <div className="space-y-2">
           <h2 className="text-xl font-semibold tracking-tight">
             {error.message || "An unexpected telemetry error occurred"}
@@ -42,7 +40,6 @@ export default function ErrorPage({
           </p>
         </div>
 
-        {/* Action Button */}
         <div className="pt-2">
           <Button 
             onClick={unstable_retry}
@@ -53,7 +50,7 @@ export default function ErrorPage({
           </Button>
         </div>
 
-        {/* Technical Details (Optional / Secondary) */}
+
         {error.digest && (
           <p className="text-[10px] font-mono text-muted-foreground/50 pt-4">
             ErrID: {error.digest}
