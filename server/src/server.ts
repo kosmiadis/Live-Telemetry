@@ -165,8 +165,6 @@ setInterval(() => {
     }
 }, 300)
 
-
-
 //every 5 seconds store the live tracking data in db
 setInterval(async () => {
     try {
@@ -177,7 +175,7 @@ setInterval(async () => {
     } catch (e: any) {
         console.log(e.message);
     }
-}, 1000 * 5)
+}, 1000)
 
 server.listen(PORT, () => {
     console.log('app is running on http://localhost:'+PORT);

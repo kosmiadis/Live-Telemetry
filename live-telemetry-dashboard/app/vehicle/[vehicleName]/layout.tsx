@@ -10,6 +10,7 @@ import { Suspense, type ReactNode } from "react";
 import DeleteVehicleForm from "./components/DeleteVehicleForm";
 import VehicleStreamBinaryDataProvider from "./context/VehicleStreamDataContext";
 import VehicleLayoutPerformanceContent from "./components/VehicleLayoutPerformanceContent";
+import { cacheLife } from "next/cache";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ vehicleName: string }>},
@@ -106,7 +107,7 @@ function PerformanceDataSkeleton() {
 }
 
 async function VehicleLayoutStaticPerformanceData ({ params }: { params: Promise<{vehicleName: string}>}) {
-    const { vehicleName } = await params;
+  const { vehicleName } = await params;
 
     const vehicle = await prisma.vehicle.findUnique({
         where: { vehicleName },

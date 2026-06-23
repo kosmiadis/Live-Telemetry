@@ -6,25 +6,29 @@ import { Progress } from "@/components/ui/progress";
 import { H2, Muted } from "@/components/ui/typography";
 import { WifiOff, Radio, Activity, Zap, Thermometer, Battery, BatteryWarning, BatteryLow } from "lucide-react";
 import { useVehicleDataStream } from "../hooks/useVehicleDataStream";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useEffect } from "react";
+import { useTransition } from "react";
+import { syncVehiclePerformanceStats } from "../actions/syncVehiclePerformanceStats";
+import { useParams } from "next/navigation";
 
 //in the future replace with vehicleId instead of vehicleName
 
 export default function VehicleTelemetryStream () {
     const { data, metadata, setShouldConnectToStream, error } = useVehicleDataStream();
     const {shouldConnectToStream, isConnectedToStream, isConnecting } = metadata;
+    const params = useParams();
 
+    const startTransition = useTransition()[1];
+    // call an action that revalidates the static performance data when the disconnect button is clicked maybe
+    // first set the data as optimistic value by the last package received and then fetch the real data
+    
     function handleDisconnect () {
+      startTransition(() => {
+        const vehicleName = params.vehicleName as string;
+        syncVehiclePerformanceStats({ vehicleName });
+      })
+
       setShouldConnectToStream(false);
     }
-
-    useEffect(() => {
-      console.log(metadata);
-      // console.log('isConnecting: ', isConnecting);
-    }, [metadata])
-
-    
 
     if (error) return (
       <div className="flex flex-col items-center justify-center text-center p-6 space-y-4">

@@ -7,7 +7,7 @@ import { useVehicleDataStream } from "../hooks/useVehicleDataStream";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function VehicleLayoutPerformanceContent ({ vehicle }: { vehicle: Omit<VehicleType, 'timestamps'>}) {
-  
+
     const { data, metadata: { isConnectedToStream, shouldConnectToStream , isConnecting }, error } = useVehicleDataStream();
 
     const vehiclePerformance = vehicle.vehiclePerformance as VehiclePerformanceType;
