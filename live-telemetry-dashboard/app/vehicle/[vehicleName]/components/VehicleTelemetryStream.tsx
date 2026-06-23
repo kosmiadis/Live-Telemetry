@@ -28,7 +28,7 @@ export default function VehicleTelemetryStream () {
 
     if (error) return (
       <div className="flex flex-col items-center justify-center text-center p-6 space-y-4">
-        <div className="p-3 bg-destructive/10 rounded-full animate-bounce">
+        <div className="p-3 bg-destructive/10 rounded-full">
           <WifiOff className="h-12 w-12 text-destructive" />
         </div>
         <div className="space-y-2 max-w-md">
@@ -78,15 +78,15 @@ export default function VehicleTelemetryStream () {
         <div className="w-full flex flex-row items-center justify-between p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
           <div className="flex items-center gap-3">
             <span className="relative flex h-3 w-3">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isConnectedToStream ? 'bg-green-400' : 'bg-amber-400'}`}></span>
-              <span className={`relative inline-flex rounded-full h-3 w-3 ${isConnectedToStream ? 'bg-green-500' : 'bg-amber-500'}`}></span>
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isConnectedToStream && !isConnecting ? 'bg-green-400' : 'bg-amber-400'}`}></span>
+              <span className={`relative inline-flex rounded-full h-3 w-3 ${isConnectedToStream && !isConnecting ? 'bg-green-500' : 'bg-amber-500'}`}></span>
             </span>
             <div className="flex flex-col">
               <span className="font-medium text-sm">
-                {isConnectedToStream ? "Connected to Stream" : "Connecting to WebSocket..."}
+                {isConnectedToStream  && !isConnecting ? "Connected to Stream" : "Connecting to WebSocket..."}
               </span>
               <Muted>
-                {isConnectedToStream ? "Receiving live telemetry packets" : "Establishing handshake"}
+                {isConnectedToStream && !isConnecting ? "Receiving live telemetry packets" : "Establishing handshake"}
               </Muted>
             </div>
           </div>

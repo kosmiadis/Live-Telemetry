@@ -167,12 +167,17 @@ setInterval(() => {
 
 
 
-//every 20 seconds store the live tracking data in db
+//every 5 seconds store the live tracking data in db
 setInterval(async () => {
-    if (staticPerformanceData.vehicleId) {
-        await storePerformance(staticPerformanceData, staticPerformanceData.vehicleId)
+    try {
+        //try to store data in database
+        if (staticPerformanceData.vehicleId) {
+            storePerformance(staticPerformanceData, staticPerformanceData.vehicleId)
+        }
+    } catch (e: any) {
+        console.log(e.message);
     }
-}, 1000 * 10)
+}, 1000 * 5)
 
 server.listen(PORT, () => {
     console.log('app is running on http://localhost:'+PORT);
