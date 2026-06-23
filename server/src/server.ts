@@ -60,8 +60,14 @@ telemetryServerSocket.on('connection', (ws, request) => {
         
     }) 
     
-    ws.on('error', (error) => {
-        console.log(error.message)
+    ws.on('error', async (error) => {
+    
+         if (staticPerformanceData.vehicleId) {
+            await storePerformance(staticPerformanceData, staticPerformanceData.vehicleId);
+        }
+        
+        staticPerformanceData.vehicleId = undefined; // stops the emission loop
+        intervals = 0;
     });
 
     //client sent the vehicleName in order to initialize the staticPerformance data in the server

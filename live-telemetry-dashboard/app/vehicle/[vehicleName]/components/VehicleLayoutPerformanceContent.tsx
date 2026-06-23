@@ -4,10 +4,11 @@ import { VehiclePerformanceType, VehicleType } from "@/types/vehicle";
 import { Gauge, Orbit, Thermometer, Zap } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useVehicleDataStream } from "../hooks/useVehicleDataStream";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function VehicleLayoutPerformanceContent ({ vehicle }: { vehicle: Omit<VehicleType, 'timestamps'>}) {
   
-    const { data, metadata: { isConnectedToStream } } = useVehicleDataStream();
+    const { data, metadata: { isConnectedToStream, shouldConnectToStream , isConnecting }, error } = useVehicleDataStream();
 
     const vehiclePerformance = vehicle.vehiclePerformance as VehiclePerformanceType;
 
@@ -37,7 +38,24 @@ export default function VehicleLayoutPerformanceContent ({ vehicle }: { vehicle:
       icon: <Thermometer className="h-4 w-4 text-muted-foreground" />,
     },
   ];
-    
+
+    if (shouldConnectToStream && isConnecting) return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-6">
+    {Array.from({ length: 4 }).map((_, i) => (
+        <Card key={i}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-4 rounded-full" />
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Skeleton className="h-7 w-28" />
+            <Skeleton className="h-4 w-20" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+
+      
+      //even if error occurs the dashboard will display the db stored stats
     return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-6">
       {stats.map((stat, i) => (
         <Card key={i}>

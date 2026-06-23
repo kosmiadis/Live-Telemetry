@@ -7,12 +7,24 @@ import { H2, Muted } from "@/components/ui/typography";
 import { WifiOff, Radio, Activity, Zap, Thermometer, Battery, BatteryWarning, BatteryLow } from "lucide-react";
 import { useVehicleDataStream } from "../hooks/useVehicleDataStream";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect } from "react";
 
 //in the future replace with vehicleId instead of vehicleName
 
 export default function VehicleTelemetryStream () {
     const { data, metadata, setShouldConnectToStream, error } = useVehicleDataStream();
     const {shouldConnectToStream, isConnectedToStream, isConnecting } = metadata;
+
+    function handleDisconnect () {
+      setShouldConnectToStream(false);
+    }
+
+    useEffect(() => {
+      console.log(metadata);
+      // console.log('isConnecting: ', isConnecting);
+    }, [metadata])
+
+    
 
     if (error) return (
       <div className="flex flex-col items-center justify-center text-center p-6 space-y-4">
@@ -59,72 +71,7 @@ export default function VehicleTelemetryStream () {
           </Button>
     </div>
 
-    if (isConnecting) {
-      return <div className="flex flex-col gap-4 animate-pulse">
-        
-        {/* Top Status Bar Skeleton */}
-        <div className="w-full flex flex-row items-center justify-between p-6 border rounded-lg bg-card shadow-sm">
-          <div className="flex items-center gap-3">
-            <Skeleton className="h-3 w-3 rounded-full bg-amber-400/50" />
-            <div className="flex flex-col gap-2">
-              <Skeleton className="h-4 w-32" />
-              <Skeleton className="h-3 w-48" />
-            </div>
-          </div>
-          <Skeleton className="h-9 w-24 rounded-md" />
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <Skeleton className="h-5 w-24" />
-              <Skeleton className="h-4 w-4 rounded-full" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-10 w-36 mt-1" />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <Skeleton className="h-5 w-32" />
-              <Skeleton className="h-4 w-4 rounded-full" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-10 w-28 mt-1" />
-            </CardContent>
-          </Card>
-          <Card className="md:row-span-2 flex flex-col justify-between h-full">
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <Skeleton className="h-5 w-40" />
-              <Skeleton className="h-4 w-4 rounded-full" />
-            </CardHeader>
-            <CardContent className="space-y-4 pt-4">
-              <Skeleton className="h-9 w-20" />
-              <Skeleton className="h-2 w-full rounded-full" />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <Skeleton className="h-5 w-28" />
-              <Skeleton className="h-4 w-4 rounded-full" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-9 w-24 mt-1" />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <Skeleton className="h-5 w-28" />
-              <Skeleton className="h-4 w-4 rounded-full" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-9 w-24 mt-1" />
-            </CardContent>
-          </Card>
-
-        </div>
-      </div>
-    }
-
+    
 
     return <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2 items-center justify-between">
@@ -144,7 +91,7 @@ export default function VehicleTelemetryStream () {
             </div>
           </div>
           
-          <Button variant="outline" size="sm" onClick={() => setShouldConnectToStream(false)}>
+          <Button variant="outline" size="sm" onClick={handleDisconnect}>
             Disconnect
           </Button>
         </div>
