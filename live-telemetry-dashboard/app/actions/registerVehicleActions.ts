@@ -10,6 +10,7 @@ type RegisterVehicleReturnStateType = {
 };
 
 export async function registerVehicleAction (_prevState: RegisterVehicleReturnStateType, formValues: defaultFormValuesType): Promise<RegisterVehicleReturnStateType> {
+
     try {
         await prisma.vehicle.create({
             data: {
@@ -21,8 +22,21 @@ export async function registerVehicleAction (_prevState: RegisterVehicleReturnSt
                         weight: formValues.vehicleWeight
                     }
                 },
+                vehiclePerformance: {
+                    create: {
+                        averageBatteryTemp: 0,
+                        averageRpm: 0,
+                        averageSpeed: 0,
+                        averageThrottle: 0,
+                        maxBatteryTemp: 0,
+                        maxRpm: 0,
+                        maxSpeed: 0,
+                        maxThrottle: 0,
+                    }
+                }
             }
         })
+
         revalidatePath('/');
         return { isError: false };
     }

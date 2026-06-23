@@ -1,5 +1,5 @@
-import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { P } from "@/components/ui/typography";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { Muted, P } from "@/components/ui/typography";
 import Link from "next/link";
 import { VehicleType } from "@/types/vehicle";
 
@@ -7,7 +7,7 @@ export type VehiclesType = Pick<VehicleType, 'id' | 'createdAt' | 'updatedAt' | 
 
 export default function SidebarVehicles ({ vehicles }: { vehicles: VehiclesType}) {
     if (vehicles.length == 0) {
-        return <P>No Available Vehicles</P>
+        return <span className="px-2"><Muted>No Available Vehicles</Muted></span>
     }
 
     return <ul>

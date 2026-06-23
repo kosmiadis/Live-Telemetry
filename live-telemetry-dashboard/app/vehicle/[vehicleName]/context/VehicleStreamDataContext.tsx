@@ -91,7 +91,6 @@ export default function VehicleStreamBinaryDataProvider ({ vehicleName, children
 
             //when error occurs or the clients refreshes or closes the tab set the isConnected to false
             socket.onclose = (e) => {
-                console.log(e)
                 setConnectionData({
                     isConnectedToStream: false,
                     shouldConnectToStream: false,

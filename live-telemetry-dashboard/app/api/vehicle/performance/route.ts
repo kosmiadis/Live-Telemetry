@@ -19,9 +19,6 @@ export async function POST (request: Request) {
 
         if (!vehicle) throw new Error('Vehicle not found');
 
-        //if a vehicle is already registered
-        if (vehicle.id && !vehicle.vehiclePerformance) return NextResponse.json({ message: 'no'})
-
         return NextResponse.json({ vehicle });
 
     } catch (e: any) {

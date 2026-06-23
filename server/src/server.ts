@@ -74,6 +74,7 @@ telemetryServerSocket.on('connection', (ws, request) => {
     ws.on('message', async (event) => {
         const vehicleName = String(event);
 
+
         try {
             //fetch stored vehicle performance data to initialize staticPerformanceData
             const req = await fetch('http://localhost:3000/api/vehicle/performance', {
@@ -88,20 +89,20 @@ telemetryServerSocket.on('connection', (ws, request) => {
             const vehicle = (await req.json()).vehicle;
 
             const id = vehicle.id;
-            const perf = vehicle.vehiclePerformance || {};
+            const perf = vehicle.vehiclePerformance;
 
             intervals = 0;
 
             staticPerformanceData = {
                 vehicleId: Number(id),
-                maxSpeed: perf.maxSpeed ?? 0,
-                maxRpm: perf.maxRpm ?? 0,
-                maxBatteryTemp: perf.maxBatteryTemp ?? 0,
-                maxThrottle: perf.maxThrottle ?? 0,
-                averageSpeed: perf.averageSpeed ?? 0,
-                averageRpm: perf.averageRpm ?? 0,
-                averageBatteryTemp: perf.averageBatteryTemp ?? 0,
-                averageThrottle: perf.averageThrottle ?? 0,
+                maxSpeed: perf?.maxSpeed ?? 0,
+                maxRpm: perf?.maxRpm ?? 0,
+                maxBatteryTemp: perf?.maxBatteryTemp ?? 0,
+                maxThrottle: perf?.maxThrottle ?? 0,
+                averageSpeed: perf?.averageSpeed ?? 0,
+                averageRpm: perf?.averageRpm ?? 0,
+                averageBatteryTemp: perf?.averageBatteryTemp ?? 0,
+                averageThrottle: perf?.averageThrottle ?? 0,
             };
             
         } catch (e: any) {
@@ -132,6 +133,7 @@ setInterval(() => {
             averageThrottle: getLivePerformanceAverage(averageThrottle!, throttle, intervals)
         }
         const dataBuffer = Buffer.alloc(32);
+
         //write to dataBuffer
         dataBuffer.writeUInt8(vehicleId, 0);
         dataBuffer.writeUInt8(speed, 1);
@@ -141,6 +143,7 @@ setInterval(() => {
         dataBuffer.writeUInt16BE(voltage, 6);
         dataBuffer.writeFloatBE(batteryTemp, 8);
         dataBuffer.writeUInt32BE(timestamp, 12);
+        
         //static data analytics updated based on the vehicle's live data performance
         //such as maxSpeed average speed etc..
         dataBuffer.writeUInt8(staticPerformanceData.averageSpeed!, 16);
@@ -165,10 +168,10 @@ setInterval(() => {
     }
 }, 300)
 
-//every 5 seconds store the live tracking data in db
+//every second store the live tracking data in db
 setInterval(async () => {
     try {
-        //try to store data in database
+        //try to store data in database if a vehicle is being connected
         if (staticPerformanceData.vehicleId) {
             storePerformance(staticPerformanceData, staticPerformanceData.vehicleId)
         }

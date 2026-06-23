@@ -23,7 +23,7 @@ async function VehiclesGrid() {
     return (
       <Card className="border-dashed flex flex-col items-center justify-center p-8 text-center bg-muted/20">
         <H3>No Registered Vehicles Found</H3>
-        <Muted>Get started by registering your first racing vehicle below.</Muted>
+        <Muted>Get started by registering your first racing vehicle.</Muted>
       </Card>
     );
   }
