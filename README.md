@@ -1,6 +1,6 @@
 # Live Telemetry FullStack Application
 
-This application simulates a live telemetry digital system with data sending over a custom protocol, and a live dashboard with analytics and charts built with Next.js (Application UI/UX, functionality) and Web Sockets (Real-time communication).
+This application simulates a live telemetry digital system with data sending over a custom protocol, and a live dashboard with analytics built with Next.js (Application UI/UX, functionality) and Web Sockets (Real-time communication via Node.js server).
 
 ## Telemetry data
 
