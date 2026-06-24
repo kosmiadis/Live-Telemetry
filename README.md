@@ -75,9 +75,28 @@ The application is also containerized with Docker. There are two Dockerfiles eac
 
 ## How to use (Recommended to use Docker)
 
-First you will need to create a new database and connect it via the DATABASE_URL environment variable that prisma will give you after running the following command (you can choose whatever connection string you want)
+First clone the github repo in the desired destination example follows with Desktop Folder
+```
+cd Desktop
+git clone https://github.com/kosmiadis/Live-Telemetry
+cd Live-Telemetry
+```
+
+Navigate to the live-telemetry-dashboard folder via
+```
+cd live-telemetry-dashboard
+```
+
+You will need to create a new database and connect it via the DATABASE_URL environment variable that prisma will give you after running the following command (you can choose whatever connection string you want)
 ```
 pnpm dlx create-db
+```
+
+Copy the connection string url and create a .env file feeding the connection string
+```
+touch .env
+echo "DATABASE_URL=[copied connection string]" > .env
+echo "BASE_URL=http://localhost:3000" >> .env
 ```
 
 Then create the database tables described in prisma/schema.prisma file
@@ -94,7 +113,6 @@ And lastly seed the database with dummy pre-configured data
 ```
 pnpm tsx prisma/seed.ts
 ```
-
 
 - To run with **Docker** navigate to the root directory and run the following command
 ```
