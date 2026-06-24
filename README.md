@@ -46,10 +46,6 @@ Data will be sent **not as a JSON object but as a Buffer of binary data**. This 
 | 24-27  | float32 | averageBatteryTemp | Float |
 | 28-31  | float32 | maxBatteryTemp | Float |
 
-
-** Bytes 6-7 that represent voltage in integer format can also represent float values if the value is multiplied by 100 and for decoding is divided by 100 to get the real value. For example the real value we want to represent is 400.25V. We multiply the value with 100 thus we send 40025 through a socket, then when the data arrives we divide by 100 so we get the real value of 400.25V. The same applies also for Bytes 8-11 which are responsible for battery temperature.
-
-
 ## Frontend
 
 The Frontend part of the application consists of a real-time modern dashboard with widgets displaying the vehicle's speed, RPM, throttle, battery percentage, and battery temparature.
@@ -71,6 +67,26 @@ For the **Dashboard Static Data** the Next.js Backend is used to fetch data that
 The application is Containerized with Docker
 
 ## How to use (Recommended to use Docker)
+
+- Create db
+```
+pnpm dlx create-db
+```
+
+- Create db tables
+```
+pnpm dlx prisma migrate dev --name init
+```
+
+- Generate prisma
+```
+pnpm dlx prisma generate
+```
+
+- Seed the database
+```
+pnpm tsx prisma/seed.ts
+```
 
 - To run with **Docker** navigate to the root directory and run the following command
 ```
