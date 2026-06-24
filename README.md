@@ -9,23 +9,28 @@ The telemetry data are the data used in the application in UI components in orde
 The current telemetry data schema is as follows:
 ```
 interface TelemetryData {
-  
-  timestamp: number;     // Unix timestamp in ms
-  vehicleId: number;     // vehicle ID
-  
-  //engine and motion
-  speed: number;         // Speed in km/h
-  rpm: number;           // RPM/m (0 - 10,000)
-  throttle: number;      // Throttle percentage (0 - 100%)
-  
-  //battery stats
-  batteryTemp: number;   // Battery temperature in celsius
-  batterySOC: number;    // State of Charge / Batter percentage available: (0-100%)
-  voltage: number;       // Battery Voltage
-}
+  timestamp: number | null;
+  vehicleId: number | null;
+  speed: number | null;
+  rpm: number | null;
+  throttle: number | null;
+  batteryTemp: number | null;
+  batterySOC: number | null;
+  voltage: number | null;
+  averageSpeed: number | null;
+  maxSpeed: number | null;
+  averageRpm: number | null;
+  maxRpm: number | null;
+  averageThrottle: number | null;
+  maxThrottle: number | null;
+  averageBatteryTemp: number | null;
+  maxBatteryTemp: number | null;
+};
 ```
 
-Data will be sent **not as a JSON object but as a Buffer of binary data**. This allows for smaller network bandwidth, resulting in higher data transfer speeds, which is crucial for real-time vehicle data tracking. The derived communication protocol is fixed in 16 bytes and follows these rules:
+## Data transfer logic
+
+Data will be sent **not as a JSON object but as a Buffer of binary data**. This allows for smaller network bandwidth, resulting in higher data transfer speeds, which is crucial for real-time vehicle data tracking. The derived communication protocol is fixed of 32 bytes and is the following:
 
 |  Byte  |  Type  |  Field | Value  |
 | :----: | :----: | :----: | :----: |
@@ -48,9 +53,11 @@ Data will be sent **not as a JSON object but as a Buffer of binary data**. This 
 
 ## Frontend
 
-The Frontend part of the application consists of a real-time modern dashboard with widgets displaying the vehicle's speed, RPM, throttle, battery percentage, and battery temparature.
+The Frontend part of the application includes a homepage which displays all available vehicles for live telemetry, with the functionality of registering new vehicles and the vehicle performance and live telemetry dashboard page, where widgets displaying live speed, rpm, average battery temperature etc... are being shown realtime. ( All data are simulated from the server )
 
 ## UI
+For the UI the Shadcn UI components library is being used, for more info please visit the official website [Shadcn Website](https://ui.shadcn.com/)
+
 
 ## Backend
 The Backend is separated into two categories
@@ -64,7 +71,7 @@ For the **Dashboard Static Data** the Next.js Backend is used to fetch data that
 
 ## Infrastructure
 
-The application is Containerized with Docker
+The application is also containerized with Docker. There are two Dockerfiles each located in the corresponding folder for Next.js and Node.js and one docker-compose.yml in the root directory.
 
 ## How to use (Recommended to use Docker)
 
