@@ -75,25 +75,26 @@ The application is also containerized with Docker. There are two Dockerfiles eac
 
 ## How to use (Recommended to use Docker)
 
-- Create db
+First you will need to create a new database and connect it via the DATABASE_URL environment variable that prisma will give you after running the following command (you can choose whatever connection string you want)
 ```
 pnpm dlx create-db
 ```
 
-- Create db tables
+Then create the database tables described in prisma/schema.prisma file
 ```
 pnpm dlx prisma migrate dev --name init
 ```
 
-- Generate prisma
+Generate the prisma client
 ```
 pnpm dlx prisma generate
 ```
 
-- Seed the database
+And lastly seed the database with dummy pre-configured data
 ```
 pnpm tsx prisma/seed.ts
 ```
+
 
 - To run with **Docker** navigate to the root directory and run the following command
 ```
