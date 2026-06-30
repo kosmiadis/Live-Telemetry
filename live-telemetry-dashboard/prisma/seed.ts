@@ -40,31 +40,6 @@ async function seedDB () {
 
   await prisma.vehicle.create({
     data: {
-      vehicleName: "Aristurtle25",
-      vehicleStats: {
-        create: {
-          color: 'White/Green',
-          weight: 230,
-          batteryVoltage: 400,
-        },
-      },
-      vehiclePerformance: {
-        create: {
-          maxSpeed: 130,
-          averageSpeed: 75,
-          maxRpm: 12000,
-          averageRpm: 7500,
-          maxThrottle: 100,
-          averageThrottle: 55,
-          averageBatteryTemp: 47,
-          maxBatteryTemp: 52,
-        },
-      },
-    },
-  });
-
-  await prisma.vehicle.create({
-    data: {
       vehicleName: "NeuralRover",
       vehicleStats: {
         create: {
